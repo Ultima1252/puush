@@ -1,8 +1,6 @@
-#!/bin/bash
-# Set API Key here
-PUUSH_API_KEY=""
+#!/bin/sh
 
-# Puush for Ubuntu/linux
+# Puush for FreeBSD
 # Owner : Sunmock Yang
 # www.sunmock.com
 # May 2014
@@ -18,15 +16,14 @@ PUUSH_API_KEY=""
 #
 # Instructions:
 # - Add your puush API key to PUUSH_API_KEY (You can find your API key at http://puush.me/account/settings)
-# - Place this file wherever you want (/usr/local/bin)
-# - Set up keyboard shortcuts within linux (in Ubuntu it's system settings > keyboard > keyboard shortcuts > custom shortcuts)
+# - Set up keyboard shortcuts within FreeBSD
 #
 # 		command			description		(recommended keyboard shortcut)
 #		---------------------------------------------------------------
-#		puush -c		puush window	(Ctrl + Shift + 2/@)
-#		puush -a		puush desktop	(Ctrl + Shift + 3/#)
-#		puush -b		area puush		(Ctrl + Shift + 4/$)
-#		puush -d		file upload		(Ctrl + Shift + U)
+#		puush -w		puush window	(Ctrl + Shift + 2/@)
+#		puush -d		puush desktop	(Ctrl + Shift + 3/#)
+#		puush -a		area puush		(Ctrl + Shift + 4/$)
+#		puush -f		file upload		(Ctrl + Shift + U)
 #
 #
 # Notes:
@@ -34,8 +31,10 @@ PUUSH_API_KEY=""
 # - puush curl upload code borrowed from online sources
 
 # Usage: puushFile [fileName]
-function puushFile ()
-{
+
+. ~/.config/puush
+
+puushFile() {
 	if [ -z "$1" ]; then
 		echo "No file specified"
 		exit 1
@@ -44,28 +43,28 @@ function puushFile ()
 		exit 1
 	fi
 
-	fileURL=`curl "https://puush.me/api/up" -# -F "k=$PUUSH_API_KEY" -F "z=waifu" -F "f=@$1" | sed -E 's/^.+,(.+),.+,.+$/\1\n/'`
+	fileURL=`curl "https://puush.me/api/up" -# -F "k=$PUUSH_API_KEY" -F "z=waifu" -F "f=@$1" | sed -E 's/^.+,(.+),.+,.+$/\1\n/' | sed 's/http/https/'`
+	echo ${fileURL}
 
 	if [ ! -z "$fileURL" ]; then
 		#Copy link to clipboard, show notification
 		printf $fileURL | xclip -selection "clipboard"
-		notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" -t 2000 "puush complete!" "$fileURL"
+		notify-send -i "/usr/local/share/icons/puush.png" -t 2000 "puush complete!" "$fileURL"
 	fi
 }
 
-function helpText ()
-{
-  printf "_____________ puush for linux _____________\n"
+helpText() {
+  printf "____________ puush for FreeBSD ____________\n"
   printf "Created by Sunmock Yang using the puush api\n"
   printf "\n"
   printf "Usage:\n"
   printf "  puush [OPTIONS] [PATH]\n"
   printf "\n"
   printf "OPTIONS:\n"
-  printf "  -a                 puush entire desktop\n"
-  printf "  -b                 select area to puush\n"
-  printf "  -c                 puush current window\n"
-  printf "  -d                 puush specific file (opens file dialog)\n"
+  printf "  -d                 puush entire desktop\n"
+  printf "  -a                 select area to puush\n"
+  printf "  -w                 puush current window\n"
+  printf "  -f                 puush specific file (opens file dialog)\n"
   printf "\n"
   printf "  --help,-h          show this page\n"
   printf "\n"
@@ -73,14 +72,16 @@ function helpText ()
   printf "  PATH               optional: path of file to puush\n"
 }
 
-function generateFileName () { echo "/tmp/puush-linux ($(date +"%Y-%m-%d at %I.%M.%S")).png"; }
+generateFileName() {
+echo "/tmp/puush ($(date +"%Y-%m-%d at %I.%M.%S")).png";
+}
 
 
 if [ -z "$PUUSH_API_KEY" ]; then
-  echo "Set the variable PUUSH_API_KEY in $0"
+  echo "Set the variable PUUSH_API_KEY in ~/.config/puush"
   echo "You can find your API key at http://puush.me/account/settings"
 
-  notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" "Set the variable PUUSH_API_KEY in $0" "You can find your API key at http://puush.me/account/settings"
+  notify-send -i "/usr/local/share/icons/puush.png" "Set the variable PUUSH_API_KEY in $0" "You can find your API key at http://puush.me/account/settings"
 
   exit 1
 
@@ -93,28 +94,28 @@ fi
 
 #Get file to puush and puush it
 case "$1" in
-	-a)
+	-d)
 		echo "Whole Desktop"
 			fileName=$(generateFileName)
 			gnome-screenshot -f "$fileName"
 			puushFile "$fileName"
 		;;
 
-	-b)
+	-a)
 		echo "Area"
 			fileName=$(generateFileName)
 			gnome-screenshot -a -f "$fileName"
 			puushFile "$fileName"
 		;;
 
-	-c)
+	-w)
 		echo "Window"
 			fileName=$(generateFileName)
 			gnome-screenshot -w -f "$fileName"
 			puushFile "$fileName"
 		;;
 
-	-d)
+	-f)
 		echo "File Upload"
 			fileName=`zenity --file-selection`
 			puushFile "$fileName"
