@@ -1,4 +1,4 @@
-Puush in Linux
+Puush in Unix
 =====================
 
 Takes screenshots and uploads them to puush using the puush API and copies the link to clipboard. Recommended for set up with keyboard shortcuts
@@ -10,7 +10,7 @@ Takes screenshots and uploads them to puush using the puush API and copies the l
   - (You can find your API key at http://puush.me/account/settings)
 - Make it executable using __chmod +x puush__
 - Place this file wherever you want (recommended: /usr/local/bin)
-- Set up keyboard shortcuts within linux
+- Set up keyboard shortcuts within unix
   - (in Ubuntu it's system settings > keyboard > keyboard shortcuts > custom shortcuts)
   - Log out for the changes to take place
   - Here's what it looks like for mine: ![Puush keyboard setup](http://puu.sh/cOyVz/8dcb1cd498.png)
