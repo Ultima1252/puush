@@ -63,7 +63,7 @@ helpText() {
   printf "OPTIONS:\n"
   printf "  -d                 puush entire desktop\n"
   printf "  -a                 select area to puush\n"
-  printf "  -w                 puush current window\n"
+  printf "  -w                 puush window under cursor\n"
   printf "  -f                 puush specific file (opens file dialog)\n"
   printf "\n"
   printf "  --help,-h          show this page\n"
