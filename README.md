@@ -2,7 +2,7 @@ Puush in Unix
 =====================
 
 Takes screenshots and uploads them to puush using the puush API and copies the link to clipboard. Recommended for set up with keyboard shortcuts
-<br>Utilises __gnome-screenshot__ for taking screenshots, __zenity__ for file uploads (both included in Ubuntu).
+<br>Utilises __spectacle__ for taking screenshots, __zenity__ for file uploads (both included in Ubuntu).
 
 ## Instructions
 - Clone or download the repo
