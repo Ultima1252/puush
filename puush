@@ -6,7 +6,7 @@
 # May 2014
 #
 # Dependencies:
-# - gnome-screenshot
+# - spectacle 
 # - curl
 # - zenity
 # - xclip
@@ -97,21 +97,21 @@ case "$1" in
 	-d)
 		echo "Whole Desktop"
 			fileName=$(generateFileName)
-			gnome-screenshot -f "$fileName"
+			spectacle -n -b -f -o "$fileName"
 			puushFile "$fileName"
 		;;
 
 	-a)
 		echo "Area"
 			fileName=$(generateFileName)
-			gnome-screenshot -a -f "$fileName"
+			spectacle -n -b -r -o "$fileName"
 			puushFile "$fileName"
 		;;
 
 	-w)
 		echo "Window"
 			fileName=$(generateFileName)
-			gnome-screenshot -w -f "$fileName"
+			spectacle -n -b -u -o "$fileName"
 			puushFile "$fileName"
 		;;
 
