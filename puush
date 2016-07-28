@@ -43,7 +43,7 @@ puushFile() {
 		exit 1
 	fi
 
-	fileURL=`curl "https://puush.me/api/up" -# -F "k=$PUUSH_API_KEY" -F "z=waifu" -F "f=@$1" | sed -E 's/^.+,(.+),.+,.+$/\1\n/' | sed 's/http/https/'`
+	fileURL=`curl "https://puush.me/api/up" -# -F "k=$PUUSH_API_KEY" -F "z=waifu" -F "f=@$1" | sed -E 's/^.+,(.+),.+,.+$/\1\n/ ; s/http\:/https\:/'`
 	echo ${fileURL}
 
 	if [ ! -z "$fileURL" ]; then
