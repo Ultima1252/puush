@@ -6,7 +6,7 @@
 # May 2014
 #
 # Dependencies:
-# - spectacle 
+# - spectacle
 # - curl
 # - zenity
 # - xclip
@@ -125,10 +125,10 @@ case "$1" in
 		helpText
 		exit 0
 		;;
-		
+
 	*)
 		echo "Upload $1"
 			puushFile "$1"
 		;;
-		
+
 esac
